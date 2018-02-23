@@ -1,0 +1,84 @@
+
+Press RETURN to get started!
+
+
+
+Router>en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#int fa0/0
+Router(config-if)#ip address 192.168.10.1 255.255.255.252
+Router(config-if)#no shut
+
+Router(config-if)#
+%LINK-5-CHANGED: Interface FastEthernet0/0, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/0, changed state to up
+
+Router(config-if)#exit
+Router(config)#
+Router(config)#
+Router(config)#int fa0/1
+Router(config-if)#ip address 10.7.1.1 255.255.255.0
+Router(config-if)#no shut
+
+Router(config-if)#
+%LINK-5-CHANGED: Interface FastEthernet0/1, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to up
+
+Router(config-if)#exit
+Router(config)#
+Router(config)#
+Router(config)#int fa1/0
+Router(config-if)#ip address 192.168.1.1 255.255.255.0
+Router(config-if)#no shut
+
+Router(config-if)#
+%LINK-5-CHANGED: Interface FastEthernet1/0, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet1/0, changed state to up
+%IP-4-DUPADDR: Duplicate address 192.168.1.1 on FastEthernet1/0, sourced by 0004.9A39.55B5
+
+Router(config-if)#exit
+Router(config)#
+Router(config)#
+Router(config)#router rip
+Router(config-router)#vers 2
+Router(config-router)#network 192.168.10.0
+Router(config-router)#network 10.7.1.0
+Router(config-router)#network 192.168.1.0
+Router(config-router)#redist static
+Router(config-router)#default-inf orig
+Router(config-router)#exit
+Router(config)#exit
+Router#
+%SYS-5-CONFIG_I: Configured from console by console
+
+Router#write memory
+Building configuration...
+[OK]
+Router#disable
+Router>show ip route
+Codes: C - connected, S - static, I - IGRP, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2, E - EGP
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+       * - candidate default, U - per-user static route, o - ODR
+       P - periodic downloaded static route
+
+Gateway of last resort is not set
+
+     10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+R       10.0.0.0/8 [120/2] via 192.168.10.2, 00:00:57, FastEthernet0/0
+C       10.7.1.0/24 is directly connected, FastEthernet0/1
+C    192.168.1.0/24 is directly connected, FastEthernet1/0
+R    192.168.2.0/24 [120/1] via 192.168.10.2, 00:00:28, FastEthernet0/0
+R    192.168.3.0/24 [120/1] via 10.7.1.2, 00:00:23, FastEthernet0/1
+     192.168.10.0/24 is variably subnetted, 3 subnets, 2 masks
+R       192.168.10.0/24 is possibly down, routing via 192.168.10.2, FastEthernet0/0
+C       192.168.10.0/30 is directly connected, FastEthernet0/0
+R       192.168.10.4/30 [120/1] via 192.168.10.2, 00:00:28, FastEthernet0/0
+
+Router>
