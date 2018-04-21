@@ -1,0 +1,5 @@
+if re.match('^\.+$', line):
+    return '..'
+return '.'
+
+вот такие вот дела!
