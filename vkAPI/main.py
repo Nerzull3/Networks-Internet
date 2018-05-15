@@ -5,7 +5,7 @@ from urllib.request import urlopen
 
 def main(method, params, fields):
     data = __send_recv(_KEY, method, params, fields, _VERSION)['response']
-
+    
     if method.startswith('users.get'):
         __parse_response_items(data)
     else:
@@ -13,20 +13,16 @@ def main(method, params, fields):
 
 
 def __parse_response(data):
-    count = data['count']
-    print(f'count: {count}')
+    print(f'count: {data["count"]}')
     users = data['items']
     __parse_response_items(users)
 
 
-def __parse_response_items(users):
-    for user in users:
+def __parse_response_items(items):
+    for item in items:
         print('\n#############################################\n')
-        for field in user.keys():
-            try:
-                print(f'{field}: {user[field]}')
-            except KeyError:
-                continue
+        for field in item.keys():
+            print(f'{field}: {item[field]}')
 
 
 def __send_recv(token, method, params, fields, version):
